@@ -9,7 +9,8 @@ class QuestionPage(BasePage):
 
     @allure.step("Get answer of question {question}")
     def get_answer_text(self, question):
-        text = self.driver.find_element(*question).text
+        found_element = self.find_element(question)
+        text = found_element.text
         return text
 
 

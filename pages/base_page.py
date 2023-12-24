@@ -29,6 +29,12 @@ class BasePage:
     def wait_element_is_clickable(self, locator):
         return WebDriverWait(self.driver, 10).until(expected_conditions.element_to_be_clickable(locator))
 
+    @allure.step('Wait element and click {locator}')
+    def wait_element_is_visible_and_click(self, locator):
+        WebDriverWait(self.driver, 10).until(expected_conditions.visibility_of_element_located(locator))
+        element = self.find_element(locator)
+        element.click()
+
     @allure.step('Click element {locator}')
     def click_element(self, locator):
         element = self.find_element(locator)
@@ -36,5 +42,12 @@ class BasePage:
 
     @allure.step('Get Current URL')
     def get_current_url(self):
-        return self.driver.current_url
+        current_url = self.driver.current_url
+        return current_url
+
+    def switch_tab(self):
+        self.driver.switch_to.window(self.driver.window_handles[1])
+
+    def scroll_to_body(self):
+        self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
